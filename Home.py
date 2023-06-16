@@ -31,7 +31,7 @@ def main():
                 ''')
     
     
-    image_url = 'https://raw.githubusercontent.com/fowardelcac/Portafolio-Data-Science/main/70445613.jpg'
+    image_url = 'https://raw.githubusercontent.com/fowardelcac/Portafolio_Ciencia_de_Datos/main/70445613.jpg'
     response = requests.get(image_url)
     image = Image.open(BytesIO(response.content))
     st.sidebar.image(image, width=160)
