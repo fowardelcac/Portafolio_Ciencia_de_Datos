@@ -99,8 +99,6 @@ def convert_df(df):
    return df.to_csv(index=False).encode('utf-8')
 
 st.title("Analisis de Ethereum addresses")
-st.write(st.session_state)
-
 st.text('Address de prueba: 0x270963D9085E924Cbc98085859D0d9532aCD8d02')
 address = (st.text_input("Ingrese una direccion de Ethereum:", key='Address')).lower()
 if 'Address' not in st.session_state:
