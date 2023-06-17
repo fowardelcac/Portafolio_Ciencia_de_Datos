@@ -33,13 +33,10 @@ def montecarlo(n_iter, n_stocks, df_retornos):
         sr = (ret-0.01) / vol
 
         portfolio_returns.append(ret)
+        st.write(portfolio_returns)
         portfolio_volatilities.append(vol)
         portfolio_sharpe.append(sr)
 
-    st.write(portfolio_returns)
-    st.write(portfolio_volatilities)
-    st.write(portfolio_sharpe)
-    
     df_portafolio = pd.DataFrame({
         'Retornos': portfolio_returns,
         'Volatibilidad': portfolio_volatilities,
