@@ -107,6 +107,9 @@ if 'N' in st.session_state and st.session_state.N > 1:
         if 'df' not in st.session_state:
             df = descarga(tickers_list)
             sp = descarga(['^GSPC'])
+
+            st.write(df)
+            st.write(sp)
             
         st.write('--' * 100)
         option = st.selectbox(
