@@ -107,7 +107,7 @@ if 'N' in st.session_state and st.session_state.N > 1:
         if 'df' not in st.session_state:
             df = descarga(tickers_list)
             sp = descarga(['^GSPC'])
-            ret_log = (np.log(df / df.shift(1))).dropna()
+            
 
             st.session_state['df'] = df
             st.session_state['Sp'] = sp
@@ -118,7 +118,12 @@ if 'N' in st.session_state and st.session_state.N > 1:
         )
         if option == 'Simulación de Monte Carlo':
             st.subheader("Simulación de Monte Carlo")
+            df = st.session_state['df']
+    
             n = st.session_state.N
+            st.write(st.session_state)
+            ret_log = (np.log(df / df.shift(1))).dropna()
+            st.write(ret_log)
             df_portafolio = montecarlo(10, n, ret_log)
             st.markdown('Dataframe de simulaciones con sus retornos, volatilidad, Sharpe y pesos por orden de activo.')
             st.write(df_portafolio)
