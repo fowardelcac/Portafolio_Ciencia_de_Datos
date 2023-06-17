@@ -5,7 +5,6 @@ import yfinance as yf
 import plotly.express as px
 import scipy.optimize as sci_opt
 
-@st.cache
 def descarga(lista):
     assets_df = []
     for i in lista:
@@ -18,9 +17,7 @@ def descarga(lista):
     df.dropna(inplace=True)
     return df
 
-@st.cache_data
 def montecarlo(n_iter, n_stocks, df_retornos):
-    st.write(df_retornos)
     portfolio_returns, portfolio_volatilities, portfolio_sharpe = [], [], []
     all_weights = np.zeros((n_iter, n_stocks))
 
@@ -34,7 +31,6 @@ def montecarlo(n_iter, n_stocks, df_retornos):
         sr = (ret-0.01) / vol
 
         portfolio_returns.append(ret)
-        st.write(portfolio_returns)
         portfolio_volatilities.append(vol)
         portfolio_sharpe.append(sr)
 
@@ -48,7 +44,7 @@ def montecarlo(n_iter, n_stocks, df_retornos):
     return df_portafolio
 
 
-def benchmark(df, sp, pesos=list):
+def benchmkark(df, sp, pesos=list):
     data = df / df.iloc[0]
     dff = pd.DataFrame()
     indice = -1
@@ -79,17 +75,15 @@ def benchmark(df, sp, pesos=list):
     st.write('-' * 100)
     return dff
 
-@st.cache
 def calculos_(weights: list):
-    ret = np.sum(df_retornos.mean() * weights) * 252
-    vol = np.sqrt(np.dot(weights.T, np.dot(df_retornos.cov() * 252, weights)))
+    ret = np.sum(ret_log.mean() * weights) * 252
+    vol = np.sqrt(np.dot(weights.T, np.dot(ret_log.cov() * 252, weights)))
     sr = ret / vol
     return np.array([ret, vol, sr])
 
 def neg_s(weights: list) -> np.array:
     return calculos_(weights)[2] * (-1)
 
-def get_vol(weights: list) -> np.array:
     return calculos_(weights)[1]
 
 st.set_page_config(
@@ -97,34 +91,33 @@ st.set_page_config(
     page_icon=":open_file_folder:",
 )
 
+
+st.write(st.session_state)
 st.number_input('Ingrese el número de activos:', min_value=0, max_value=5, key='N')
-if 'N' in st.session_state and st.session_state.N > 1:
+if ('N' in st.session_state) and (st.session_state.N > 1):
+    
     st.text('Formato de ticker: MSFT, TSLA, AAPL, etc.')
     tickers = st.text_input('Ingrese los tickers:', key='ticker').upper()
     tickers_list = [ticker.strip() for ticker in tickers.split(',')]
-
+    
+    st.write(st.session_state)
     if st.session_state.N == len(tickers_list):
         if 'df' not in st.session_state:
-            df = descarga(tickers_list)
-            sp = descarga(['^GSPC'])
-
-            st.write(df)
-            st.write(sp)
+            st.session_state['df'] = descarga(tickers_list)
+            st.session_state['Sp'] = descarga(['^GSPC'])
             
         st.write('--' * 100)
         option = st.selectbox(
             '¿Cómo le gustaría obtener su cartera?',
-            ('Simulación de Monte Carlo', 'Optimización por Sharpe ratio', 'Optimización por volatilidad')
+            ('Simulación de Monte Carlo', 'Optimización por Sharpe ratio')
         )
+        df = st.session_state.df
         ret_log = (np.log(df / df.shift(1))).dropna()
         if option == 'Simulación de Monte Carlo':
             st.subheader("Simulación de Monte Carlo")    
-            n = st.session_state.N
-            st.write(st.session_state)
-            
-            st.write(ret_log)
+            n = st.session_state.N            
             df_portafolio = montecarlo(10, n, ret_log)
-            st.markdown('Dataframe de simulaciones con sus retornos, volatilidad, Sharpe y pesos por orden de activo.')
+            st.text('Dataframe de simulaciones con sus retornos, volatilidad, Sharpe y pesos por orden de activo.')
             st.write(df_portafolio)
 
             max_sh = df_portafolio.iloc[df_portafolio.Sharpe.idxmax()]
@@ -138,16 +131,13 @@ if 'N' in st.session_state and st.session_state.N > 1:
 
             fig.add_scatter(
                 x=[min_vol[1]], y=[min_vol[0]], mode='markers',
-                marker=dict(color='black', symbol='star', size=20), name='Máxima volatilidad esperada'
-            )
+                marker=dict(color='black', symbol='star', size=20), name='Máxima volatilidad esperada')
             fig.add_scatter(
                 x=[max_ret[1]], y=[max_ret[0]], mode='markers',
-                marker=dict(color='black', symbol='star', size=20), name='Máximos rendimientos esperados'
-            )
+                marker=dict(color='black', symbol='star', size=20), name='Máximos rendimientos esperados')
             fig.add_scatter(
                 x=[max_sh[1]], y=[max_sh[0]], mode='markers',
-                marker=dict(color='black', symbol='star', size=20), name='Máximo Sharpe Ratio'
-            )
+                marker=dict(color='black', symbol='star', size=20), name='Máximo Sharpe Ratio')
 
             fig.update_layout(
                 coloraxis=dict(colorscale='plasma', colorbar=dict(title='Sharpe Ratio')),
@@ -191,11 +181,10 @@ if 'N' in st.session_state and st.session_state.N > 1:
             st.write(bench)
             st.subheader('Benchmark, Valor del portafolio vs SP500')
             st.line_chart(bench[['Value', 'SP500']])
-
+            
+            
         elif option == 'Optimización por Sharpe ratio':
             n = st.session_state.N
-            df_retornos = st.session_state.ret_log
-
             st.subheader('Optimización del portafolio sobre el Sharpe ratio')
             bounds = tuple((0, 1) for symbol in range(n))
             constraints = ({'type': 'eq', 'fun': lambda w: np.sum(w) - 1})
@@ -220,51 +209,17 @@ if 'N' in st.session_state and st.session_state.N > 1:
             })
             st.write(result)
 
-            df = st.session_state.df
+            df_opt = st.session_state.df
             sp = st.session_state.Sp
 
             st.subheader("Benchmark")
             lista_pesos = st.selectbox('Seleccione los pesos para cada activo:', result.Pesos)
-            bench = benchmkark(df, sp, lista_pesos)
+            bench = benchmkark(df_opt, sp, lista_pesos)
             st.write(bench)
             st.subheader('Benchmark, Valor del portafolio vs SP500')
             st.line_chart(bench[['Value', 'SP500']])
+           
+                
 
-        elif option == 'Optimización por volatilidad':
-            n = st.session_state.N
-            df_retornos = st.session_state.ret_log
-
-            st.subheader('Optimización del portafolio sobre la volatilidad')
-            bounds = tuple((0, 1) for symbol in range(n))
-            constraints = ({'type': 'eq', 'fun': lambda w: np.sum(w) - 1})
-            init_guess = n * [1 / n]
-
-            optimized_vol = sci_opt.minimize(
-                get_vol,
-                init_guess,
-                method='SLSQP',
-                bounds=bounds,
-                constraints=constraints
-            )
-
-            optimized_metrics = calculos_(weights=optimized_vol.x)
-            st.write('Resultados:')
-            result = pd.DataFrame({
-                'Retornos': optimized_metrics[0],
-                'Volatilidad': optimized_metrics[1],
-                'Sharpe': optimized_metrics[2],
-                'Pesos': [optimized_vol.x]
-            })
-            st.write(result)
-
-            df = st.session_state.df
-            sp = st.session_state.Sp
-
-            st.subheader("Benchmark")
-            lista_pesos = st.selectbox('Seleccione los pesos para cada activo:', result.Pesos)
-            bench = benchmkark(df, sp, lista_pesos)
-            st.write(bench)
-            st.subheader('Benchmark, Valor del portafolio vs SP500')
-            st.line_chart(bench[['Value', 'SP500']])
 else:
     st.text('Por favor, ingrese un número válido de activos mayores a 1.')
