@@ -20,6 +20,7 @@ def descarga(lista):
 
 @st.cache_data
 def montecarlo(n_iter, n_stocks, df_retornos):
+    st.write(df_retornos)
     portfolio_returns, portfolio_volatilities, portfolio_sharpe = [], [], []
     all_weights = np.zeros((n_iter, n_stocks))
 
