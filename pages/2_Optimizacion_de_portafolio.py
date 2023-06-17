@@ -108,21 +108,17 @@ if 'N' in st.session_state and st.session_state.N > 1:
             df = descarga(tickers_list)
             sp = descarga(['^GSPC'])
             
-
-            st.session_state['df'] = df
-            st.session_state['Sp'] = sp
         st.write('--' * 100)
         option = st.selectbox(
             '¿Cómo le gustaría obtener su cartera?',
             ('Simulación de Monte Carlo', 'Optimización por Sharpe ratio', 'Optimización por volatilidad')
         )
+        ret_log = (np.log(df / df.shift(1))).dropna()
         if option == 'Simulación de Monte Carlo':
-            st.subheader("Simulación de Monte Carlo")
-            df = st.session_state['df']
-    
+            st.subheader("Simulación de Monte Carlo")    
             n = st.session_state.N
             st.write(st.session_state)
-            ret_log = (np.log(df / df.shift(1))).dropna()
+            
             st.write(ret_log)
             df_portafolio = montecarlo(10, n, ret_log)
             st.markdown('Dataframe de simulaciones con sus retornos, volatilidad, Sharpe y pesos por orden de activo.')
