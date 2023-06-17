@@ -23,10 +23,10 @@ def montecarlo(n_iter, n_stocks, df_retornos):
     portfolio_returns, portfolio_volatilities, portfolio_sharpe = [], [], []
     all_weights = np.zeros((n_iter, n_stocks))
 
-    for _ in range(n_iter):
+    for i in range(n_iter):
         weights = np.random.random(n_stocks)
         weights = weights / np.sum(weights)
-
+    
         all_weights[i, :] = weights
         ret = np.sum(df_retornos.mean() * weights) * 252
         vol = np.sqrt(np.dot(weights.T, np.dot(df_retornos.cov() * 252, weights)))
