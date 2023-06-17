@@ -110,7 +110,6 @@ if 'N' in st.session_state and st.session_state.N > 1:
             ret_log = (np.log(df / df.shift(1))).dropna()
 
             st.session_state['df'] = df
-            st.session_state['ret_log'] = ret_log
             st.session_state['Sp'] = sp
         st.write('--' * 100)
         option = st.selectbox(
@@ -120,8 +119,7 @@ if 'N' in st.session_state and st.session_state.N > 1:
         if option == 'Simulación de Monte Carlo':
             st.subheader("Simulación de Monte Carlo")
             n = st.session_state.N
-            df_retornos = st.session_state.ret_log
-            df_portafolio = montecarlo(1000, n, df_retornos)
+            df_portafolio = montecarlo(10, n, ret_log)
             st.markdown('Dataframe de simulaciones con sus retornos, volatilidad, Sharpe y pesos por orden de activo.')
             st.write(df_portafolio)
 
