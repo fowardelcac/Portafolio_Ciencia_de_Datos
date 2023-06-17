@@ -18,7 +18,7 @@ def descarga(lista):
     df.dropna(inplace=True)
     return df
 
-@st.cache
+@st.cache_data
 def montecarlo(n_iter, n_stocks, df_retornos):
     portfolio_returns, portfolio_volatilities, portfolio_sharpe = [], [], []
     all_weights = np.zeros((n_iter, n_stocks))
@@ -26,7 +26,7 @@ def montecarlo(n_iter, n_stocks, df_retornos):
     for i in range(n_iter):
         weights = np.random.random(n_stocks)
         weights = weights / np.sum(weights)
-    
+
         all_weights[i, :] = weights
         ret = np.sum(df_retornos.mean() * weights) * 252
         vol = np.sqrt(np.dot(weights.T, np.dot(df_retornos.cov() * 252, weights)))
@@ -36,12 +36,15 @@ def montecarlo(n_iter, n_stocks, df_retornos):
         portfolio_volatilities.append(vol)
         portfolio_sharpe.append(sr)
 
-    return pd.DataFrame({
+    df_portafolio = pd.DataFrame({
         'Retornos': portfolio_returns,
         'Volatibilidad': portfolio_volatilities,
         'Sharpe': portfolio_sharpe,
         'Pesos': np.round(all_weights, 3).tolist()
     })
+
+    return df_portafolio
+
 
 def benchmark(df, sp, pesos=list):
     data = df / df.iloc[0]
