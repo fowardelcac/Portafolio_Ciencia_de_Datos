@@ -44,22 +44,6 @@ def chart(max_sh, min_vol, max_ret, df_portafolio):
     st.subheader("Frontera eficiente de Markowitz")
     st.plotly_chart(fig, use_container_width=True)
 
-
-def descargar(activos: list):
-    assets_df = []
-    for i in activos:
-        assets_df.append(yf.download(i, '2015-01-01')['Adj Close']) 
-    df = pd.concat(assets_df, axis=1)
-    df.columns = activos
-    df.dropna(inplace=True)
-    return df
-
-def set_dfs(assets: list):
-    df = descargar(assets)
-    sp = descargar(['^GSPC'])
-    df_ret = np.log(df / df.shift(1)).dropna()
-    return df, sp, df_ret
-
 def benchmark(df, sp, pesos:list):
     cap = 100000
     data = df / df.iloc[0]
@@ -92,10 +76,17 @@ st.set_page_config(
 
 assets = ['AAPL', 'MSFT', 'TSLA']
 n_stocks = len(assets)
-df, sp, df_ret = set_dfs(assets)  
+assets_df = []
+for i in assets:
+    assets_df.append(yf.download(i, '2015-01-01')['Adj Close']) 
+df = pd.concat(assets_df, axis=1)
+df.columns = assets
+df.dropna(inplace=True)
+sp = yf.download('^GSPC', '2015-01-01')['Adj Close']
+df_ret = np.log(df / df.shift(1)).dropna()
 option = st.selectbox('¿Cómo le gustaría obtener su cartera?', ('Simulación de Monte Carlo', 'Optimización por Sharpe ratio'))
 
-n_iter = 1000
+n_iter = 5000
 portfolio_returns, portfolio_volatilities, portfolio_sharpe = [], [], []
 all_weights = np.zeros((n_iter, n_stocks))
 
@@ -193,3 +184,4 @@ st.write('-' * 100)
 st.text('Rendimiento vs volatibilidad anualizada:')
 st.write(rdo_pd)
 st.write('-' * 100)
+           
