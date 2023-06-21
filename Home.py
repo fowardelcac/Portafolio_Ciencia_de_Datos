@@ -18,9 +18,11 @@ def main():
     
     st.subheader('Descripcion:')
     st.markdown('''Este es mi portafolio de Ciencia de Datos, el cual consta de tres proyectos destacados.
-    El primero es un análisis sobre Ethereum addresses, donde se puede ingresar una dirección y obtener datos relevantes sobre sus transacciones, tokens ERC20 y NFTs asociados. Este proyecto proporciona una visión detallada de la actividad y los activos digitales relacionados con una dirección específica en la blockchain de Ethereum.
-    El segundo proyecto se enfoca en la optimización de portafolios, basandose en la frontera efieciente de markowitz y la optimización basada en el índice de Sharpe y la volatilidad, este programa permite ingresar la cantidad de activos y sus respectivos tickers para obtener los pesos y valores óptimos del portafolio. Con esto, se busca maximizar el rendimiento y reducir el riesgo de la cartera de inversiones.
-    Por último, el tercer proyecto se centra en el análisis de riesgo crediticio.''')
+                1. Analizador de Ethereum Addresses: Este proyecto permite ingresar una dirección de Ethereum y obtener información relevante sobre sus transacciones, tokens ERC20 y NFTs asociados. Proporciona una visión detallada de la actividad y los activos digitales relacionados con una dirección específica en la blockchain de Ethereum.
+                2. Optimizacion de portafolio: En este proyecto, se enfoca en la optimización de portafolios utilizando la frontera eficiente de Markowitz y el índice de Sharpe. Se analizan tres activos: MSFT, AAPL y TSLA, para obtener los pesos y valores óptimos del portafolio. El objetivo es maximizar el rendimiento y reducir el riesgo de la cartera de inversiones.
+                3. First payment default: Este proyecto se centra en el análisis de riesgo crediticio utilizando un dataset sintético y un modelo de machine learning llamado LGBM. Los usuarios pueden ingresar sus datos en la página y el modelo determinará si son aptos para obtener una tarjeta de crédito o no.
+    
+    .''')
     
     st.subheader("Como contactarme:")
     st.markdown('''
