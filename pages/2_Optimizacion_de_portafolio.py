@@ -58,7 +58,7 @@ def benchmark(cap, pesos, df):
   return dff.dropna()
 
 st.title('Optimizacion de cartera.')
-st.markdown('Se realiza la optimizacion de cartera de tres activos: "MSFT", "TSLA" Y "AAPL"; esta se realiza siguiendo dos procedimientos, uno basado en la Frontera Eficiente de Markowitz y el segundo optimizando por Sharpe ratio.')
+
 assets_df = pd.read_csv('https://raw.githubusercontent.com/fowardelcac/Portafolio_Ciencia_de_Datos/main/assets_df.csv')
 df_ret = pd.read_csv('https://raw.githubusercontent.com/fowardelcac/Portafolio_Ciencia_de_Datos/main/df_ret.csv')
 
