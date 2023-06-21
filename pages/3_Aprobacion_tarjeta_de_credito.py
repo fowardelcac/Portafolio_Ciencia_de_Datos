@@ -56,11 +56,12 @@ own_house_n = 1 if own_house == 'Sí' else 0
 
 try: 
     y_pred = lgbm.predict([[num_child, group_n, income, own_car_n, own_house_n]])
+    
+    if y_pred == 0:
+        st.error('Su solicitud ha sido rechazada.')
+        
+    else:
+        st.success('Felicitaciones!! Su solicitud ha sido aprobada.')
 except:
     st.error('Complete los datos!')
 
-if y_pred == 0:
-    st.error('Su solicitud ha sido rechazada.')
-    
-else:
-    st.success('Felicitaciones!! Su solicitud ha sido aprobada.')
