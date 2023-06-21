@@ -1,8 +1,6 @@
 import streamlit as st
-import yfinance as yf
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 import plotly.express as px
 import scipy.optimize as sci_opt
 
@@ -55,7 +53,7 @@ def benchmark(cap, pesos, df):
       indice += 1
 
   dff['Date'] = df.Date
-  dff['Value'] = dff.sum(axis=1)
+  dff['Value'] = dff.sum(axis=1, numeric_only=True)
   dff['SP500'] = (sp / sp.iloc[0]) * cap
   return dff.dropna()
 
@@ -64,28 +62,19 @@ st.markdown('Se realiza la optimizacion de cartera de tres activos: "MSFT", "TSL
 assets_df = pd.read_csv('https://raw.githubusercontent.com/fowardelcac/Portafolio_Ciencia_de_Datos/main/assets_df.csv')
 df_ret = pd.read_csv('https://raw.githubusercontent.com/fowardelcac/Portafolio_Ciencia_de_Datos/main/df_ret.csv')
 
-st.write(assets_df)
-st.write(df_ret)
-
 n_iter, n_assets = 5000, 3
 pf_returns, pf_vol, pf_sharpe = [list() for _ in range(3)]
 all_weights = np.zeros((n_iter, n_assets))
 
-weights = np.random.random(n_assets)
 
-weights = weights / np.sum(weights)
-all_weights[i, :] = weights
-
-ret_esp = np.sum(df_ret.mean() * weights) * 252
-st.write(ret_esp)
 for i in range(n_iter):
   weights = np.random.random(n_assets)
 
   weights = weights / np.sum(weights)
   all_weights[i, :] = weights
 
-  ret_esp = np.sum(df_ret.mean() * weights) * 252
-  vol_esp = np.sqrt(np.dot(weights.T, np.dot(df_ret.cov() * 252, weights)))
+  ret_esp = np.sum(df_ret.mean(numeric_only=True) * weights) * 252
+  vol_esp = np.sqrt(np.dot(weights.T, np.dot(df_ret.cov(numeric_only=True) * 252, weights)))
   sharpe = (ret_esp - 0.01) / vol_esp
   pf_returns.append(ret_esp)
   pf_vol.append(vol_esp)
@@ -133,8 +122,8 @@ st.line_chart(rdo_df)
      
 
 def calculos_(weights: list):
-    ret = np.sum(df_ret.mean() * weights) * 252
-    vol = np.sqrt(np.dot(weights.T, np.dot(df_ret.cov() * 252, weights)))
+    ret = np.sum(df_ret.mean(numeric_only=True) * weights) * 252
+    vol = np.sqrt(np.dot(weights.T, np.dot(df_ret.cov(numeric_only=True) * 252, weights)))
     sr = (ret - 0.01) / vol
     return np.array([ret, vol, sr])
 
@@ -174,8 +163,8 @@ rdo_last = round(rdo_df.iloc[-1], 3)
 
 rdo_ret = (np.log(rdo_df / rdo_df.shift(1))).dropna()
 rdo_pd = pd.DataFrame({
-    'Retorno medio anual': round((rdo_ret[['Value', 'SP500']].mean() * 250) * 100, 2),
-    'Vol. media anual': round((rdo_ret[['Value', 'SP500']].std() * 250 ** 0.5) * 100, 2)
+    'Retorno medio anual': round((rdo_ret[['Value', 'SP500']].mean(numeric_only=True) * 250) * 100, 2),
+    'Vol. media anual': round((rdo_ret[['Value', 'SP500']].std(numeric_only=True) * 250 ** 0.5) * 100, 2)
 })
 
 st.write(rdo_pd)
