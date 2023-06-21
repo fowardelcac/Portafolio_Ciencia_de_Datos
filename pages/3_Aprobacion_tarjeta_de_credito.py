@@ -59,5 +59,4 @@ if y_pred == 0:
     st.error('Su solicitud ha sido rechazada.')       
 else:
     st.success('Felicitaciones!! Su solicitud ha sido aprobada.')
-except:
-    st.error('Complete los datos!')
+
