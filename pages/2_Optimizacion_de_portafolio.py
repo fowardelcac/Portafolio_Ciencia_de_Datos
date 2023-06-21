@@ -44,31 +44,26 @@ def chart_frontera(df_frontera, max_sh, min_vol, max_ret):
   st.plotly_chart(fig, use_container_width=True)
 
 def benchmark(cap, pesos, df):
-  df = df / df.iloc[0]
-  data1 = df.drop('^GSPC', axis=1)
+  data1 = df.drop(['Date', '^GSPC'], axis=1)
   sp = df['^GSPC']
+  data1 = data1 / data1.iloc[0]
+  
   dff = pd.DataFrame()
   indice = 0
   for i in data1:
       dff[i] = (data1[i] * pesos[indice]) * cap
       indice += 1
 
-
+  dff['Date'] = df.Date
   dff['Value'] = dff.sum(axis=1)
   dff['SP500'] = (sp / sp.iloc[0]) * cap
-  dff.dropna(inplace=True)
-  return dff
+  return dff.dropna()
 
 st.title('Optimizacion de cartera.')
 st.markdown('Se realiza la optimizacion de cartera de tres activos: "MSFT", "TSLA" Y "AAPL"; esta se realiza siguiendo dos procedimientos, uno basado en la Frontera Eficiente de Markowitz y el segundo optimizando por Sharpe ratio.')
-assets = ['AAPL', 'MSFT', 'TSLA', '^GSPC']
-assets_df = pd.DataFrame(columns=assets)
-for i in assets:
-  assets_df[i] = yf.download(i, '2015-01-01')['Adj Close']
-df_retornos = np.log(assets_df / assets_df.shift(1)).dropna()
+assets_df = pd.read_csv('https://raw.githubusercontent.com/fowardelcac/Portafolio_Ciencia_de_Datos/main/assets_df.csv')
+df_ret = pd.read_csv('https://raw.githubusercontent.com/fowardelcac/Portafolio_Ciencia_de_Datos/main/df_ret.csv')
 
-
-df_ret = df_retornos.drop('^GSPC', axis=1)
 n_iter, n_assets = 5000, 3
 pf_returns, pf_vol, pf_sharpe = [list() for _ in range(3)]
 all_weights = np.zeros((n_iter, n_assets))
