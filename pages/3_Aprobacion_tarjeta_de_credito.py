@@ -53,8 +53,11 @@ own_car_n = 1 if own_car == 'Sí' else 0
 
 own_house = st.radio('¿Posee al menos una propiedad?', ('Sí', 'No'))
 own_house_n = 1 if own_house == 'Sí' else 0
-    
-y_pred = lgbm.predict([[num_child, group_n, income, own_car_n, own_house_n]])
+
+try: 
+    y_pred = lgbm.predict([[num_child, group_n, income, own_car_n, own_house_n]])
+except:
+    st.error('Complete los datos!')
 
 if y_pred == 0:
     st.error('Su solicitud ha sido rechazada.')
