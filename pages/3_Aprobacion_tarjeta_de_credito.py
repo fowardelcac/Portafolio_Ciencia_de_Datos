@@ -54,7 +54,7 @@ own_car_n = 1 if own_car == 'Sí' else 0
 own_house = st.radio('¿Posee al menos una propiedad?', ('Sí', 'No'))
 own_house_n = 1 if own_house == 'Sí' else 0
 
-rdo = [[num_child, group_n, income, own_car_n, own_house_n]]
+rdo = [[num_child[0], group_n, income[0], own_car_n, own_house_n]]
 st.write(rdo)
 y_pred = lgbm.predict(rdo)   
 if y_pred == 0:
