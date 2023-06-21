@@ -55,10 +55,12 @@ own_house = st.radio('¿Posee al menos una propiedad?', ('Sí', 'No'))
 own_house_n = 1 if own_house == 'Sí' else 0
 
 rdo = [[num_child[0][0], group_n, income[0][0], own_car_n, own_house_n]]
-st.write(rdo)
-y_pred = lgbm.predict(rdo)   
-if y_pred == 0:
-    st.error('Su solicitud ha sido rechazada.')       
-else:
-    st.success('Felicitaciones!! Su solicitud ha sido aprobada.')
+try: 
+    y_pred = lgbm.predict(rdo)
+    if y_pred == 0:
+        st.error('Su solicitud ha sido rechazada.')        
+    else:
+        st.success('Felicitaciones!! Su solicitud ha sido aprobada.')
+except:
+    st.error('Complete los datos!')
 
