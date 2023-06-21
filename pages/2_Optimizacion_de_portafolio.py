@@ -64,6 +64,9 @@ st.markdown('Se realiza la optimizacion de cartera de tres activos: "MSFT", "TSL
 assets_df = pd.read_csv('https://raw.githubusercontent.com/fowardelcac/Portafolio_Ciencia_de_Datos/main/assets_df.csv')
 df_ret = pd.read_csv('https://raw.githubusercontent.com/fowardelcac/Portafolio_Ciencia_de_Datos/main/df_ret.csv')
 
+st.write(assets_df)
+st.write(df_ret)
+
 n_iter, n_assets = 5000, 3
 pf_returns, pf_vol, pf_sharpe = [list() for _ in range(3)]
 all_weights = np.zeros((n_iter, n_assets))
