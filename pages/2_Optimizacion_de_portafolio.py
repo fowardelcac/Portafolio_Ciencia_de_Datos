@@ -71,6 +71,13 @@ n_iter, n_assets = 5000, 3
 pf_returns, pf_vol, pf_sharpe = [list() for _ in range(3)]
 all_weights = np.zeros((n_iter, n_assets))
 
+weights = np.random.random(n_assets)
+
+weights = weights / np.sum(weights)
+all_weights[i, :] = weights
+
+ret_esp = np.sum(df_ret.mean() * weights) * 252
+st.write(ret_esp)
 for i in range(n_iter):
   weights = np.random.random(n_assets)
 
