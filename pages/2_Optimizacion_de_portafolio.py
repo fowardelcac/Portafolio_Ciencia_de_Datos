@@ -120,29 +120,28 @@ st.write(rdo_pd)
 st.write('-' * 100)
 st.line_chart(rdo_df)
      
+def calculos_(weights: list):
+    ret = np.sum(df_ret.mean(numeric_only=True) * weights) * 252
+    vol = np.sqrt(np.dot(weights.T, np.dot(df_ret.cov(numeric_only=True) * 252, weights)))
+    sr = (ret - 0.01) / vol
+    return np.array([ret, vol, sr])
 
-def calculos_(weights):
-  global df_ret
-  weights = np.array(weights)
-  ret = np.sum(df_ret.mean() * weights) * 252
-  vol = np.sqrt(np.dot(weights.T, np.dot(df_ret.cov() * 252, weights)))
-  sr = (ret - 0.01) / vol
-  return np.array([ret, vol, sr])
-    
-def neg_s(weights):
+def neg_s(weights: list) -> np.array:
     return calculos_(weights)[2] * (-1)
-    
-def check_sum(weights):
-  return np.sum(weights) - 1
-
 
 st.title('Optimización del Sharpe ratio')
+bounds = tuple((0, 1) for symbol in range(n_assets))
+constraints = ({'type': 'eq', 'fun': lambda w: np.sum(w) - 1})
+init_guess = n_assets * [1 / n_assets]
 
-cons = ({'type':'eq', 'fun': check_sum})
-bounds = [(0, 1)] * len(df_ret.columns)
-init_guess = [0.1]* len(df_ret.columns)
+optimized_sharpe = sci_opt.minimize(
+    neg_s,
+    init_guess,
+    method='SLSQP',
+    bounds=bounds,
+    constraints=constraints
+)
 
-optimized_sharpe = optimize.minimize(neg_s, init_guess, bounds=bounds, constraints=cons)
 optimized_metrics = calculos_(weights=optimized_sharpe.x)
 
 result = pd.DataFrame({
