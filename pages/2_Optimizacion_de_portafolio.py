@@ -122,10 +122,10 @@ st.line_chart(rdo_df)
      
 
 def calculos_(weights):
-  global ret_log
+  global df_ret
   weights = np.array(weights)
-  ret = np.sum(ret_log.mean() * weights) * 252
-  vol = np.sqrt(np.dot(weights.T, np.dot(ret_log.cov() * 252, weights)))
+  ret = np.sum(df_ret.mean() * weights) * 252
+  vol = np.sqrt(np.dot(weights.T, np.dot(df_ret.cov() * 252, weights)))
   sr = (ret - 0.01) / vol
   return np.array([ret, vol, sr])
     
