@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.express as px
-import scipy.optimize as sci_opt
+from scipy import optimize
 
 st.set_page_config(
     page_title="Portfolio",
