@@ -58,6 +58,7 @@ def benchmark(cap, pesos, df):
   return dff.dropna()
 
 st.title('Optimizacion de cartera.')
+st.markdown('El portafolio cuenta con tres activos: AAPL, MSFT y TSLA')
 
 assets_df = pd.read_csv('https://raw.githubusercontent.com/fowardelcac/Portafolio_Ciencia_de_Datos/main/assets_df.csv')
 df_ret = pd.read_csv('https://raw.githubusercontent.com/fowardelcac/Portafolio_Ciencia_de_Datos/main/df_ret.csv')
