@@ -1,4 +1,8 @@
 # Portafolio Data Science
- Este repositorio cuenta con mi portfafolio orientado a Ciencia de Datos, este repo cuenta con el codiigo y el mismo se encuentra implemenetado en Streamlit, link: 
+Este es un repositorio escrito en python, y es mi carta de presentacion laboral. Dentro de este codigo 'home.py' es la hoja principal y dentro de la carpeta 'pages' se encuentran los distintos proyectos, cada proyecto tiene su propio repositorio en github.
+- PBI dashboard: https://github.com/fowardelcac/PBI
+- 
+- 
+
 
 Link: jcs-port-cs-datos.streamlit.app
