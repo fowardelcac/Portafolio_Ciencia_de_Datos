@@ -12,9 +12,9 @@ def main():
     st.title("¡Bienvenidos a mi Portafolio!")
 
     st.markdown('''
-    Soy Juan Cruz, un apasionado estudiante de Licenciatura en Ciencia de Datos. Mi enfoque se centra en la programación, tanto en Python como en R, donde destaco en el manejo de librerías como Pandas, Matplotlib/Seaborn, Numpy, Sklearn y Machine Learning. Estoy en búsqueda de oportunidades laborales en el apasionante campo de la Ciencia de Datos, con especial interés en el sector tecnológico.
+    Soy Juan Cruz, un estudiante de Licenciatura en Ciencia de Datos en la Universidad Siglo 21 de Cordoba, Argentina. Mi enfoque se centra en la programación, principalmente en Python con 3 años de expreiencia, donde destaco en el manejo de librerías como Pandas, Matplotlib/Seaborn, Numpy, y implementaciones de modelos de Machine Learning con Sklearn;  ademas, cuento con conocimientos basicos en R y consultas en SQL. Estoy en búsqueda de oportunidades laborales en el apasionante campo de la Ciencia de Datos, con especial interés en el sector tecnológico.
     
-    Soy autodidacta y cuento con un nivel intermedio de inglés. Estoy ansioso por colaborar en proyectos desafiantes y seguir aprendiendo en este emocionante camino. ¡Gracias por tu consideración!
+    Soy autodidacta y cuento con un nivel intermedio de inglés, me entusiasma colaborar en proyectos desafiantes que me permitan continuar desarollando mis habilidades y seguir mejorando en el tiempo. ¡Gracias por tu consideración!
     ''')
 
     st.subheader('Descripción:')
