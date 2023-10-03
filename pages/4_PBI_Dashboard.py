@@ -57,9 +57,9 @@ def merge_gdps(df1, df2):
 
 @st.cache_data
 def separar_grupos(df):
-    brics_df = df[df['country_name'].isin(l.brics)].set_index('year')
-    g20_df = df[df['country_name'].isin(l.g20)].set_index('year')
-    g7_df = df[df['country_name'].isin(l.g7)].set_index('year')
+    brics_df = df[df['country_name'].isin(brics)].set_index('year')
+    g20_df = df[df['country_name'].isin(g20)].set_index('year')
+    g7_df = df[df['country_name'].isin(g7)].set_index('year')
     return brics_df, g20_df, g7_df
 
 @st.cache_data
