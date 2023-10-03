@@ -194,7 +194,8 @@ with col1:
 with col2:
     st.header('Evolucion del PBI')
     mundial = df.groupby('year').sum(numeric_only='True')
-    fecha = st.slider('Rango de años.', min_value = mundial.index.min(), max_value = mundial.index.max(), value = (mundial.index.min(), mundial.index.max()))
+    fecha = st.slider('Rango de años.', min_value=int(mundial.index.min()), max_value=int(mundial.index.max()), value=(int(mundial.index.min()), int(mundial.index.max())))
+    st.write(fecha)
     mundial_filtrado = mundial.loc[fecha[0]:fecha[1]]
     st.plotly_chart(graf_pbi_mundial(mundial_filtrado))
     
