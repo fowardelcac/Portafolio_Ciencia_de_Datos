@@ -192,11 +192,11 @@ with col1:
    
 with col2:
     st.header('Evolucion del PBI')
-    mundial = df.groupby('year').sum(numeric_only='True').reset_index('year')
-    fecha = st.slider('Rango de años.', min_value = mundial.year.min(), max_value = mundial.year.max(), value = (mundial.year.min(), mundial.year.max()))
-    mundial_filtrado = (mundial.loc[fecha[0]:fecha[1]]).set_index('year')
+    mundial = df.groupby('year').sum(numeric_only=True).reset_index()
+    fecha = st.slider('Rango de años.', min_value=mundial['year'].min(), max_value=mundial['year'].max(), value=(mundial['year'].min(), mundial['year'].max()))
+    mundial_filtrado = mundial[(mundial['year'] >= fecha[0]) & (mundial['year'] <= fecha[1])]
     st.plotly_chart(graf_pbi_mundial(mundial_filtrado))
-    
+        
     st.header('Foros internacionales.')
     grupo = st.selectbox('Seleccione un grupo:', ('G20', 'G7', 'BRICS'))
     st.plotly_chart(pie_por_grupo(dic_var[grupo], grupo))
