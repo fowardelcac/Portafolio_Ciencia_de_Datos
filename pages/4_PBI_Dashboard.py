@@ -1,49 +1,11 @@
 import pandas as pd
 import plotly.express as px
 import streamlit as st
+
+import listas as l
+
 st.set_page_config(page_title = "PBI Dashboard", page_icon = ":bar_chart:", layout = "wide")
 
-g20 = [
-    'Argentina',
-    'Australia',
-    'Brazil',
-    'Canada',
-    'China',
-    'France',
-    'Germany',
-    'India',
-    'Indonesia',
-    'Italy',
-    'Japan',
-    'Mexico',
-    'Russia',
-    'Saudi Arabia',
-    'South Africa',
-    'South Korea',
-    'Turkey',
-    'United Kingdom',
-    'United States',
-]
-
-# Países miembros del G7 en inglés
-g7 = [
-    'Canada',
-    'France',
-    'Germany',
-    'Italy',
-    'Japan',
-    'United Kingdom',
-    'United States',
-]
-
-# Países miembros del BRICS en inglés
-brics = [
-    'Brazil',
-    'Russia',
-    'India',
-    'China',
-    'South Africa',
-]
 
 @st.cache_data
 def cargar_datos():        
@@ -57,9 +19,9 @@ def merge_gdps(df1, df2):
 
 @st.cache_data
 def separar_grupos(df):
-    brics_df = df[df['country_name'].isin(brics)].set_index('year')
-    g20_df = df[df['country_name'].isin(g20)].set_index('year')
-    g7_df = df[df['country_name'].isin(g7)].set_index('year')
+    brics_df = df[df['country_name'].isin(l.brics)].set_index('year')
+    g20_df = df[df['country_name'].isin(l.g20)].set_index('year')
+    g7_df = df[df['country_name'].isin(l.g7)].set_index('year')
     return brics_df, g20_df, g7_df
 
 @st.cache_data
@@ -192,11 +154,11 @@ with col1:
    
 with col2:
     st.header('Evolucion del PBI')
-    mundial = df.groupby('year').sum(numeric_only=True).reset_index()
-    fecha = st.slider('Rango de años.', min_value=mundial['year'].min(), max_value=mundial['year'].max(), value=(mundial['year'].min(), mundial['year'].max()))
-    mundial_filtrado = mundial[(mundial['year'] >= fecha[0]) & (mundial['year'] <= fecha[1])]
+    mundial = df.groupby('year').sum(numeric_only='True')
+    fecha = st.slider('Rango de años.', min_value = mundial.index.min(), max_value = mundial.index.max(), value = (mundial.index.min(), mundial.index.max()))
+    mundial_filtrado = mundial.loc[fecha[0]:fecha[1]]
     st.plotly_chart(graf_pbi_mundial(mundial_filtrado))
-        
+    
     st.header('Foros internacionales.')
     grupo = st.selectbox('Seleccione un grupo:', ('G20', 'G7', 'BRICS'))
     st.plotly_chart(pie_por_grupo(dic_var[grupo], grupo))
@@ -211,4 +173,3 @@ with st.expander('Evolucion por region.'):
 
 with st.expander('Dataset'):
     st.table(df)
-
