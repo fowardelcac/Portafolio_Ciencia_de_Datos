@@ -192,9 +192,9 @@ with col1:
    
 with col2:
     st.header('Evolucion del PBI')
-    mundial = df.groupby('year').sum(numeric_only='True')
-    fecha = st.slider('Rango de años.', min_value=int(mundial.index.min().year), max_value=int(mundial.index.max().year), value=(int(mundial.index.min().year), int(mundial.index.max().year)))
-    mundial_filtrado = mundial.loc[fecha[0]:fecha[1]]
+    mundial = df.groupby('year').sum(numeric_only='True').reset_index('year')
+    fecha = st.slider('Rango de años.', min_value = mundial.year.min(), max_value = mundial.year.max(), value = (mundial.year.min(), mundial.year.max()))
+    mundial_filtrado = (mundial.loc[fecha[0]:fecha[1]]).set_index('year')
     st.plotly_chart(graf_pbi_mundial(mundial_filtrado))
     
     st.header('Foros internacionales.')
