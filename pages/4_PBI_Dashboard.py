@@ -1,7 +1,6 @@
 import pandas as pd
 import plotly.express as px
 import streamlit as st
-
 st.set_page_config(page_title = "PBI Dashboard", page_icon = ":bar_chart:", layout = "wide")
 
 g20 = [
@@ -45,8 +44,6 @@ brics = [
     'China',
     'South Africa',
 ]
-
-st.set_page_config(page_title = "PBI Dashboard", page_icon = ":bar_chart:", layout = "wide")
 
 @st.cache_data
 def cargar_datos():        
