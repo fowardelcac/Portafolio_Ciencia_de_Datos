@@ -23,6 +23,8 @@ def main():
     st.markdown('''
     - **PBI Dashboard**: Un tablero de control creado en Python que presenta gráficos simples relacionados con el Producto Interno Bruto (PIB) a nivel mundial y regional. El objetivo principal es demostrar cómo se puede crear un tablero de control simple y efectivo utilizando Python y generando visualizaciones con Plotly. [Ver repositorio](https://github.com/fowardelcac/PBI)
     
+    - **Abandono Escolar**: ..
+
     - **Análisis de Sentimiento**: Este proyecto se centró en realizar un análisis de sentimiento en relación a cinco prominentes políticos argentinos. Se basó en la evaluación de tweets en los cuales los usuarios los mencionaban. El proyecto incluye la extracción de tweets, procesamiento de datos y el uso de un modelo de Procesamiento de Lenguaje Natural (NLP) llamado roBERTa para generar análisis de sentimiento. [Ver repositorio](https://github.com/fowardelcac/Analisis-de-sentimiento-politicos-argentinos)
     
     - **Análisis de Direcciones de Ethereum**: Exploré el emocionante mundo de las criptomonedas, conectándome a la API de Etherscan para crear una aplicación interactiva. Esta aplicación permite obtener datos a partir de las direcciones de Ethereum, incluyendo saldos, historiales de transacciones y tokens en posesión. [Ver repositorio](https://github.com/fowardelcac/Analisis-ethereum-address)
