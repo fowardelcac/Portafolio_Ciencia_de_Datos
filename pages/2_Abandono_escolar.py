@@ -195,7 +195,7 @@ def analisis(df):
             
     st.subheader('Modelo de Aprendizaje Automático')
     st.write(
-        'Como parte de nuestro análisis, creamos un modelo de aprendizaje automático para predecir si un estudiante abandonará sus estudios o los completará con éxito. Utilizamos datos detallados sobre los estudiantes, incluyendo su edad, género, becas, área de estudio y más, para desarrollar este modelo. Este análisis nos proporciona valiosas ideas sobre los factores que influyen en el abandono y el éxito académico de los estudiantes universitarios, lo que puede ayudar a las instituciones educativas a tomar decisiones más informadas y a brindar un mejor apoyo a sus estudiantes.')
+        'Como parte de final del análisis, cree un modelo de aprendizaje automático para predecir si un estudiante abandonará sus estudios o los completará con éxito. Utilice datos detallados sobre los estudiantes, incluyendo su edad, género, becas, área de estudio y más, para desarrollar este modelo. Este análisis proporciona valiosas ideas sobre los factores que influyen en el abandono y el éxito académico de los estudiantes universitarios, lo que puede ayudar a las instituciones educativas a tomar decisiones más informadas y a brindar un mejor apoyo a sus estudiantes.')
 
 if __name__ == '__main__':
     df = procesar_datos(cargar_datos())
