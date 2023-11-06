@@ -93,7 +93,7 @@ def modelo_rf(data):
 def analisis(df):
     data_becarios = df[df['Becarios'] == 1]
     dic = (df['Área de Estudio'].value_counts()).to_dict()
-    st.write('En este proyecto, exploramos un conjunto de datos centrado en el rendimiento académico de estudiantes universitarios. Nuestro objetivo es comprender las razones detrás de la deserción y la graduación. El conjunto de datos revela tres estados principales: abandono (32.12%), estudiantes cursando (17.94%) y graduados (49.9%). Nos enfocaremos en las variables relacionadas con abandono y graduación.')    
+    st.write('En este proyecto, exploro un conjunto de datos centrado en el rendimiento académico de estudiantes universitarios. El objetivo es comprender y prevenir la deserción escolar. El conjunto de datos revela tres estados principales: abandono (32.12%), estudiantes cursando (17.94%) y graduados (49.9%). Nos enfocaremos en las variables relacionadas con abandono y graduación.')    
     with st.expander('Distribución de la Variable Objetivo'):
         plt.figure(figsize=(8, 4))
         sns.countplot(data = df, x = 'Estado', palette = {0: "red", 1: "green"})
@@ -102,7 +102,7 @@ def analisis(df):
         plt.xticks(ticks=[0,1], labels=["Abandondo", "Graduado"])
         st.pyplot()
     st.subheader('Perfil de los Estudiantes')
-    st.write('Basándonos en nuestro análisis, observamos que el 75% de los estudiantes se inscriben entre los 17 y 25 años. La proporción de hombres en la muestra es del 34.41%, mientras que la de mujeres es del 65.59%. En cada grupo de 100 estudiantes graduados, encontramos 24.81 hombres y 75.19 mujeres, lo que destaca una significativa brecha de género.')
+    st.write('El 75% de los estudiantes se inscriben entre los 17 y 25 años. La proporción de hombres en la muestra es del 34.41%, mientras que la de mujeres es del 65.59%. En cada grupo de 100 estudiantes graduados, encontramos 24.81 hombres y 75.19 mujeres, lo que destaca una significativa brecha de género.')
 
     with st.expander('Distribución de Edades'):
         plt.figure(figsize=(12, 4))
